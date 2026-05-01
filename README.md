@@ -1,15 +1,6 @@
 # Percy Python Sample
 
-This project uses `pytest`, `selenium`, and `percy-selenium` to take a visual snapshot of a page that allows automation.
-
-**Why Tesla shows “Access Denied”:** `tesla.com` sits behind Akamai bot/WAF protection. Automated browsers (including Percy + Selenium) are often blocked before real HTML loads. That is enforced on Tesla’s side; changing timeouts or Percy settings will not fix it. Use your own staging build, `localhost`, or another URL your team is allowed to hit.
-
-By default the test opens `https://example.com`. Point at any allowed URL:
-
-```bash
-export PERCY_TEST_URL="https://your-staging.example.com"
-npx percy exec -- pytest -v
-```
+This project uses `pytest`, `selenium`, and `percy-selenium` to capture a Percy visual snapshot from a Selenium-driven browser.
 
 ## Prerequisites
 
@@ -63,15 +54,13 @@ npx percy exec -- pytest -v
 
 The test in `test_sample.py`:
 
-- Opens `PERCY_TEST_URL` if set, otherwise `https://example.com`
-- Uses a 10-second page-load timeout
+- Opens the URL configured in the test
 - Waits until `document.readyState` is complete, then waits 5 seconds before snapshot
-- Captures a Percy snapshot named `Sample homepage`
+- Captures a Percy snapshot with the name defined in the test
 - Closes the browser
 
 ## Troubleshooting
 
 - If `percy` is not found, ensure Node.js is installed and run `npm install`, then use `npx percy exec -- …`.
 - If upload fails, verify `PERCY_TOKEN` is set correctly.
-- If you see **Access Denied** (often with `errors.edgesuite.net`), the CDN/WAF is blocking automation — common on sites like Tesla. Use `PERCY_TEST_URL` to snapshot staging or a permissive page instead of trying to bypass protection.
 - If browser startup fails, update Chrome and rerun.
